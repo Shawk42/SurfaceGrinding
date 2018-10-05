@@ -33,11 +33,6 @@ F_pass = F_thick/F_pd             #Number of passes for the finishing region
 
 Pass_tot = S_pass+R_pass+F_pass   #Total number of passes required
 
-"""Equation fitting"""
-a = np.polyfit(S_pass,F_pass,R_pass)
-
-"""Printing"""
-
 
 """Plotting"""
 plt.plot(R_pd,Pass_tot)
