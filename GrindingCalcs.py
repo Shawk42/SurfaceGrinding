@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+
 """
 The purpose of this program is to model the surface grinding operation for further analysis.
 
@@ -37,6 +39,7 @@ plt.xlabel("Roughing Pass Depth")
 plt.ylabel("Number of Passes")
 plt.title("Roughing Pass Depth vs. # of passes")
 plt.show()
+
 
 
 
