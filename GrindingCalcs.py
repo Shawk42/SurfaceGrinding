@@ -53,26 +53,39 @@ print("Model is valid")
 
 """Percentage Printing"""
 
-S_pass_a = np.matrix([np.amax(S_pass),np.amin(S_pass)])
-R_pass_a = np.matrix([np.amax(R_pass),np.amin(R_pass)])
-F_pass_a = np.matrix([np.amax(F_pass),np.amin(F_pass)])
-Pass_tot_a = np.matrix([np.amax(Pass_tot),np.amin(Pass_tot)])
+S_pass_a = np.amax(S_pass)
+R_pass_a = np.amax(R_pass)
+F_pass_a = np.amax(F_pass)
+Pass_tot_a = np.amax(Pass_tot)
 
 S_per = (S_pass_a/Pass_tot_a)*100
 R_per = (R_pass_a/Pass_tot_a)*100
 F_per = (F_pass_a/Pass_tot_a)*100
 
+print("-"*50)
+print("Percentages - Over entire spectrum")
+print("-"*50)
 print(S_per, "Scale passes percentage")
 print(R_per, "Roughing passes percentage")
 print(F_per, "Finishing passes percentage")
-print(S_pass_a, "max , min passes [scale]")
-print(R_pass_a, "max , min passes [roughing]")
-print(F_pass_a, "max , min passes [finishing]")
-print(Pass_tot_a, "max , min passes [total")
+
+print("-"*50)
+print("Max passes")
+print("-"*50)
+print(S_pass_a, "Max scale passes")
+print(R_pass_a, "Max roughing passes")
+print(F_pass_a, "Max finishing passes")
+print(Pass_tot_a, "Max Passes")
 
 
 
 """Plotting"""   #removed plotting due to focus
+
+#zero scale assumption
+a = plt.plot(F_pass,R_pass)
+plt.xlabel("Finishing Passes")
+plt.ylabel("Roughing Passes")
+plt.show(a)
 
 #3d plot
 fig = plt.figure()
