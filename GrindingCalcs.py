@@ -13,8 +13,9 @@ Zone 3 - Finishing - The finishing passes on the part
 """
 
 """Model inputs"""
-n = 1000                                  #"Mesh" size
-thick = .125                             #Thickness of workpiece
+n = 100                                #"Mesh" size
+thick_piece = .375
+thick_tgt = .25
 
 S_thick = np.linspace(0,.0039,num=n)     #Thickness of the millscale with a max thickness of .0039
 S_pd = np.linspace(.0015,.0005,num=n)     #Pass depth for scale
@@ -25,6 +26,7 @@ F_pd = np.linspace(.001,.002,num=n)        #Pass depth for finishing
 R_pd = np.linspace(.001,.005,num=n)        #Pass depth for finishing
 
 """Intermediate Calculations"""
+thick = thick_piece-thick_tgt                       #Amount of material to be removed
 R_thick = thick-S_thick-F_thick    #Thickness of roughing region
 
 """Pass Number Cacluations"""
@@ -47,9 +49,7 @@ while count != n:
             count += 1
         else:
             print(a,dev, "Deviation out of bounds")
-print("Model is valid")
-
-
+ThickValid = "true"
 
 """Percentage Printing"""
 
@@ -63,7 +63,7 @@ R_per = (R_pass_a/Pass_tot_a)*100
 F_per = (F_pass_a/Pass_tot_a)*100
 
 print("-"*50)
-print("Percentages - Over entire spectrum")
+print("Max percentages in simulation")
 print("-"*50)
 print(S_per, "Scale passes percentage")
 print(R_per, "Roughing passes percentage")
@@ -77,17 +77,43 @@ print(R_pass_a, "Max roughing passes")
 print(F_pass_a, "Max finishing passes")
 print(Pass_tot_a, "Max Passes")
 
+"""Validation"""
+print("-"*50)
+print("Data Checks")
+print("-"*50)
+
+if thick_tgt <= thick_piece:                                      #validating correct target vs initial
+    print("VALID - Target thickness is less than total thickness")
+else:
+    print("INVALID - Target thickness is greater than total thickness")
+
+if ThickValid == "true":                                        #moving routine check to validation section
+    print("VALID - Every data point in valid")
+else:
+    print("INVALID - See first printed line")
+
+if thick >= 0:                                             #is thickness to be removed positive
+    print("VALID - Thickness to be removed in positive")
+else:
+    print("INVALID - Thickness to be removed is negative")
+
+"""Percentage plotting"""
+
+Scale_per_all = (S_pass/Pass_tot)*100
+Rough_per_all = (R_pass/Pass_tot)*100
+Finish_per_all = (F_pass/Pass_tot)*100
 
 
 """Plotting"""   #removed plotting due to focus
-
+"""
 #zero scale assumption
 a = plt.plot(F_pass,R_pass)
 plt.xlabel("Finishing Passes")
 plt.ylabel("Roughing Passes")
 plt.show(a)
+"""
 
-#3d plot
+#3d plot - scale
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(S_pass,F_pass,R_pass, marker='*')
@@ -96,3 +122,11 @@ ax.set_zlabel("Roughing Passes")
 ax.set_ylabel("Finishing Passes")
 plt.show()
 
+#3d plot - percentages
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(Scale_per_all,Finish_per_all,Rough_per_all, marker='*')
+ax.set_xlabel("Scale %")
+ax.set_zlabel("Roughing %")
+ax.set_ylabel("Finishing %")
+plt.show()
