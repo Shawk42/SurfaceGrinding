@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
+#change?
 
 """
 The purpose of this program is to model the surface grinding operation for further analysis.
