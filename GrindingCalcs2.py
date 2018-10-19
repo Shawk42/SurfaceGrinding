@@ -18,11 +18,11 @@ while count_1 != n:
     a_el = a.item(count_1)
     b_el = b.item(count_2)
     x = a_el+b_el
-    print(x)
-    if count_2 !=n:
+    print(x, "first")
+    while count_2 !=n-1:
         count_2 += 1
         b_el = b.item(count_2)
         x = a_el+b_el
-        print(x)
+        print(x, "second")
     else:
         count_1 =+ 1
