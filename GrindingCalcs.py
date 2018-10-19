@@ -12,13 +12,22 @@ Zone 2 - Roughing - Normal grinding
 Zone 3 - Finishing - The finishing passes on the part
 """
 
+"""Is scale a factor?"""
+scale = input("Is scale a factor [yes or no]")
+
 """Model inputs"""
 n = 100                                #"Mesh" size
 thick_piece = .375
 thick_tgt = .25
 
-S_thick = np.linspace(0,.0039,num=n)     #Thickness of the millscale with a max thickness of .0039
-S_pd = np.linspace(.0015,.0005,num=n)     #Pass depth for scale
+if scale == "yes":
+    S_thick = np.linspace(0,.0039,num=n)     #Thickness of the millscale with a max thickness of .0039
+    S_pd = np.linspace(.0015,.0005,num=n)     #Pass depth for scale
+    print("Scale is factor")
+else:
+    S_thick = np.linspace(0,0, num=n)  # Thickness of the millscale with a max thickness of .0039
+    S_pd = np.linspace(.0015, .0005, num=n)  # Pass depth for scale
+    print("Scale is not a factor")
 
 F_thick = np.linspace(.001,.005,num=n)     #Thickness of finishing region
 F_pd = np.linspace(.001,.002,num=n)        #Pass depth for finishing
