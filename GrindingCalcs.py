@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
+import random as rand
 
 
 """
@@ -29,10 +30,15 @@ else:
     S_pd = np.linspace(.0015, .0005, num=n)  # Pass depth for scale
     print("Scale is not a factor")
 
-F_thick = np.linspace(.001,.005,num=n)     #Thickness of finishing region
-F_pd = np.linspace(.001,.002,num=n)        #Pass depth for finishing
+F_thick_nom = np.linspace(.001,.005,num=n)     #Thickness of finishing region
+F_pd_nom = np.linspace(.001,.002,num=n)        #Pass depth for finishing
 
-R_pd = np.linspace(.001,.005,num=n)        #Pass depth for finishing
+R_pd_nom = np.linspace(.001,.005,num=n)        #Pass depth for finishing
+
+F_thick = np.random.permutation(F_thick_nom)
+F_pd = np.random.permutation(F_pd_nom)
+R_pd = np.random.permutation(R_pd_nom)
+
 
 """Intermediate Calculations"""
 thick = thick_piece-thick_tgt                       #Amount of material to be removed
@@ -113,6 +119,8 @@ Rough_per_all = (R_pass/Pass_tot)*100
 Finish_per_all = (F_pass/Pass_tot)*100
 
 
+
+
 """Plotting"""   #removed plotting due to focus
 """
 #zero scale assumption
@@ -121,7 +129,7 @@ plt.xlabel("Finishing Passes")
 plt.ylabel("Roughing Passes")
 plt.show(a)
 """
-
+"""
 #3d plot - scale
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -130,6 +138,7 @@ ax.set_xlabel("Scale Passes")
 ax.set_zlabel("Roughing Passes")
 ax.set_ylabel("Finishing Passes")
 plt.show()
+"""
 
 #3d plot - percentages
 fig = plt.figure()
