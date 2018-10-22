@@ -16,6 +16,7 @@ Zone 3 - Finishing - The finishing passes on the part
 """Is scale a factor?"""
 scale = input("Is scale a factor [yes or no]")
 
+
 """Model inputs"""
 n = 100                                #"Mesh" size
 thick_piece = .375
@@ -35,88 +36,50 @@ F_pd_nom = np.linspace(.001,.002,num=n)        #Pass depth for finishing
 
 R_pd_nom = np.linspace(.001,.005,num=n)        #Pass depth for finishing
 
-F_thick = np.random.permutation(F_thick_nom)
-F_pd = np.random.permutation(F_pd_nom)
-R_pd = np.random.permutation(R_pd_nom)
+"""Random Sampling Loop"""
+gamma = 100                 #number of interations to run
+gamma_count = 0
+while gamma_count <= gamma:
+    F_thick = np.random.permutation(F_thick_nom)
+    F_pd = np.random.permutation(F_pd_nom)
+    R_pd = np.random.permutation(R_pd_nom)
 
 
-"""Intermediate Calculations"""
-thick = thick_piece-thick_tgt                       #Amount of material to be removed
-R_thick = thick-S_thick-F_thick    #Thickness of roughing region
+    thick = thick_piece-thick_tgt                       #Amount of material to be removed
+    R_thick = thick-S_thick-F_thick    #Thickness of roughing region
+    S_pass = S_thick/S_pd             #Number of passes for the scale region
+    R_pass = R_thick/R_pd             #Number of passes for the roughing region
+    F_pass = F_thick/F_pd             #Number of passes for the finishing region
+    Pass_tot = S_pass+R_pass+F_pass   #Total number of passes required
+    S_pass_a = np.median(S_pass)
+    R_pass_a = np.median(R_pass)
+    F_pass_a = np.median(F_pass)
+    Pass_tot_a = np.median(Pass_tot)
+    S_per = (S_pass_a/Pass_tot_a)*100
+    R_per = (R_pass_a/Pass_tot_a)*100
+    F_per = (F_pass_a/Pass_tot_a)*100
 
-"""Pass Number Cacluations"""
-S_pass = S_thick/S_pd             #Number of passes for the scale region
-R_pass = R_thick/R_pd             #Number of passes for the roughing region
-F_pass = F_thick/F_pd             #Number of passes for the finishing region
 
-Pass_tot = S_pass+R_pass+F_pass   #Total number of passes required
+    S_per_all = np.empty(gamma+1)
+    S_per_all[gamma_count] = S_per
 
-"""Thickness validation"""
-count = 0
-thick_check = S_thick+F_thick+R_thick
-while count != n:
-    a = thick_check.item(count)
-    if a == thick:
-        count += 1
-    else:
-        dev = thick - a
-        if dev <= .5:
-            count += 1
-        else:
-            print(a,dev, "Deviation out of bounds")
-ThickValid = "true"
+    F_per_all = np.empty(gamma+1)
+    F_per_all[gamma_count] = F_per
 
-"""Percentage Printing"""
+    R_per_all = np.empty(gamma+1)
+    R_per_all[gamma_count] = R_per
+    gamma_count += 1
 
-S_pass_a = np.amax(S_pass)
-R_pass_a = np.amax(R_pass)
-F_pass_a = np.amax(F_pass)
-Pass_tot_a = np.amax(Pass_tot)
 
-S_per = (S_pass_a/Pass_tot_a)*100
-R_per = (R_pass_a/Pass_tot_a)*100
-F_per = (F_pass_a/Pass_tot_a)*100
+Mean_S = np.mean(S_per_all)
+Mean_F = np.mean(F_per_all)
+Mean_R = np.mean(R_per_all)
 
-print("-"*50)
-print("Max percentages in simulation")
-print("-"*50)
-print(S_per, "Scale passes percentage")
-print(R_per, "Roughing passes percentage")
-print(F_per, "Finishing passes percentage")
+print(Mean_S,"Scale")
+print(Mean_F,"Finish")
+print(Mean_R,"Rough")
 
-print("-"*50)
-print("Max passes")
-print("-"*50)
-print(S_pass_a, "Max scale passes")
-print(R_pass_a, "Max roughing passes")
-print(F_pass_a, "Max finishing passes")
-print(Pass_tot_a, "Max Passes")
 
-"""Validation"""
-print("-"*50)
-print("Data Checks")
-print("-"*50)
-
-if thick_tgt <= thick_piece:                                      #validating correct target vs initial
-    print("VALID - Target thickness is less than total thickness")
-else:
-    print("INVALID - Target thickness is greater than total thickness")
-
-if ThickValid == "true":                                        #moving routine check to validation section
-    print("VALID - Every data point in valid")
-else:
-    print("INVALID - See first printed line")
-
-if thick >= 0:                                             #is thickness to be removed positive
-    print("VALID - Thickness to be removed in positive")
-else:
-    print("INVALID - Thickness to be removed is negative")
-
-"""Percentage plotting"""
-
-Scale_per_all = (S_pass/Pass_tot)*100
-Rough_per_all = (R_pass/Pass_tot)*100
-Finish_per_all = (F_pass/Pass_tot)*100
 
 
 
@@ -139,7 +102,7 @@ ax.set_zlabel("Roughing Passes")
 ax.set_ylabel("Finishing Passes")
 plt.show()
 """
-
+"""
 #3d plot - percentages
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -148,3 +111,4 @@ ax.set_xlabel("Scale %")
 ax.set_zlabel("Roughing %")
 ax.set_ylabel("Finishing %")
 plt.show()
+"""
