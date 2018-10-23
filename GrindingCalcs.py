@@ -34,10 +34,10 @@ else:
 F_thick_nom = np.linspace(.001,.005,num=n)     #Thickness of finishing region
 F_pd_nom = np.linspace(.001,.002,num=n)        #Pass depth for finishing
 
-R_pd_nom = np.linspace(.001,.005,num=n)        #Pass depth for finishing
+R_pd_nom = np.linspace(.001,.007,num=n)        #Pass depth for roughing
 
 """Random Sampling Loop"""
-gamma = 100                 #number of interations to run
+gamma = 1000                 #number of interations to run
 gamma_count = 0
 while gamma_count <= gamma:
     F_thick = np.random.permutation(F_thick_nom)
@@ -51,64 +51,40 @@ while gamma_count <= gamma:
     R_pass = R_thick/R_pd             #Number of passes for the roughing region
     F_pass = F_thick/F_pd             #Number of passes for the finishing region
     Pass_tot = S_pass+R_pass+F_pass   #Total number of passes required
-    S_pass_a = np.median(S_pass)
-    R_pass_a = np.median(R_pass)
-    F_pass_a = np.median(F_pass)
-    Pass_tot_a = np.median(Pass_tot)
-    S_per = (S_pass_a/Pass_tot_a)*100
-    R_per = (R_pass_a/Pass_tot_a)*100
-    F_per = (F_pass_a/Pass_tot_a)*100
 
+    S_per = np.average((S_pass/Pass_tot)*100)
+    R_per = np.average((R_pass/Pass_tot)*100)
+    F_per = np.average((F_pass/Pass_tot)*100)
 
-    S_per_all = np.empty(gamma+1)
-    S_per_all[gamma_count] = S_per
-
-    F_per_all = np.empty(gamma+1)
-    F_per_all[gamma_count] = F_per
-
-    R_per_all = np.empty(gamma+1)
-    R_per_all[gamma_count] = R_per
     gamma_count += 1
 
+print("-"*50)
+print("Percentage output")
+print("-"*50)
 
-Mean_S = np.mean(S_per_all)
-Mean_F = np.mean(F_per_all)
-Mean_R = np.mean(R_per_all)
+print(int(S_per), "% in scale")
+print(int(R_per), "% in rough")
+print(int(F_per), "% in finish")
 
-print(Mean_S,"Scale")
-print(Mean_F,"Finish")
-print(Mean_R,"Rough")
+print("-"*50)
+print("Time output [in minutes]")
+print("-"*50)
+t = 120
+t_scale = int(t*(S_per/100))
+t_rough = int(t*(R_per/100))
+t_finish = int(t*(F_per/100))
+
+print(t_scale,"minutes spent in scale")
+print(t_rough,"minutes spent in roughing")
+print(t_finish, "minutes spent in finishing")
+
+sum = int(S_per+R_per+F_per)
+
+if sum >= 99:
+    print("Summation is greater than or equal to 99")
+else:
+    print("Summation is less 99")
+
+"""If the process took an hour analysis"""
 
 
-
-
-
-
-"""Plotting"""   #removed plotting due to focus
-"""
-#zero scale assumption
-a = plt.plot(F_pass,R_pass)
-plt.xlabel("Finishing Passes")
-plt.ylabel("Roughing Passes")
-plt.show(a)
-"""
-"""
-#3d plot - scale
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(S_pass,F_pass,R_pass, marker='*')
-ax.set_xlabel("Scale Passes")
-ax.set_zlabel("Roughing Passes")
-ax.set_ylabel("Finishing Passes")
-plt.show()
-"""
-"""
-#3d plot - percentages
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(Scale_per_all,Finish_per_all,Rough_per_all, marker='*')
-ax.set_xlabel("Scale %")
-ax.set_zlabel("Roughing %")
-ax.set_ylabel("Finishing %")
-plt.show()
-"""
