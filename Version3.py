@@ -6,21 +6,21 @@ All dimensions are in inches
 
 """MATERIAL PROPERTIES"""
 #User Inputs
-height = .25             #Initial height of the material
-finish = .125            #Finished height of the material
+height = .375             #Initial height of the material
+finish = .25            #Finished height of the material
 
 """PROCESS INPUTS"""
 #User Inputs
 thick_finish = .003    #With how many thou left with operator start finishing pass
 
 op_pd_scale = .0005     #How deep of a pass is the operator taking through scale
-wh_pd_scale = .001        #How deep of a pass can the wheel take through scale
+wh_pd_scale = .0005        #How deep of a pass can the wheel take through scale
 
 
-op_pd_rough = .005     #How deep of a pass is the operator taking through roughing
+op_pd_rough = .004     #How deep of a pass is the operator taking through roughing
 wh_pd_rough = .005        #How deep of a pass can the wheel taking while roughing
 
-op_pd_finish = .002    #How deep of a pass is the operator taking while finishing
+op_pd_finish = .001    #How deep of a pass is the operator taking while finishing
 wh_pd_finish = .002       #How deep of a pass can the wheel take while roughing
 
 fact_scale = input("Is scale a factor? [yes or no]")
@@ -61,6 +61,7 @@ pass_finish = np.around(thick_finish/pd_finish,decimals=1)         #Number of pa
 pass_total = np.around(pass_scale+pass_rough+pd_finish,decimals=1) #Total number of passes required
 
 """ANALYSIS CALCULATIONS"""
+#PER LAYER
 total = pass_total.item(wh)/pass_total.item(op)
 if total < 1:
     total_per = int(total*100)
