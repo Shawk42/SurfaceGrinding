@@ -5,7 +5,7 @@ assumes that the pieces loaded next to each other.
 '''
 
 """INPUTS"""
-V_raw = 2               #Velocity in [ft/s]
+V_raw = 0.5               #Velocity in [ft/s]
 Wheel_width = 5         #Width of the wheel [in]
 Wheel_travel = 2        #Amount of wheel overtravel per side
 Stick_width = 2         #Width of an individual workpiece
@@ -20,9 +20,11 @@ Area_inv = Stick_width*Stick_length  #Area of an indvidual stick
 Area = Area_inv*Sticks               #Total workpiece area
 
 """WHEEL AREA CACLULATIONS"""
-Wheel_length = Stick_length+(2*Wheel_travel)
-Area_wh = Wheel_length*Wheel_width
+gamma = Wheel_travel*V            #ft^2/s handled by wheel
 
+time = Area/gamma
+
+print(time)
 
 
 
