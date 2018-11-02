@@ -131,5 +131,5 @@ print(total_str,"[",total_per,"% Capacity","]")
 print(total_str_scale,"[",total_per_scale,"% Capacity","]")
 print(total_str_rough,"[",total_per_rough,"% Capacity","]")
 print(total_str_finish,"[",total_per_finish,"% Capacity","]")
-
+print("Total passes",pass_total)
 
