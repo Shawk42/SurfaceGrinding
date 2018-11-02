@@ -23,8 +23,12 @@ Area = Area_inv*Sticks               #Total workpiece area
 gamma = Wheel_travel*V            #ft^2/s handled by wheel
 
 time = Area/gamma
+time_pass = 2*time
+passes = 30
+time_tot_s = passes*time_pass
+time_tot = time_tot_s/3600
 
-print(time)
+print(time_tot,"hr")
 
 
 
