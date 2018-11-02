@@ -16,19 +16,25 @@ thick_finish = .003    #With how many thou left with operator start finishing pa
 op_pd_scale = .003     #How deep of a pass is the operator taking through scale
 wh_pd_scale = .003        #How deep of a pass can the wheel take through scale
 
-op_pd_rough = .004     #How deep of a pass is the operator taking through roughing
+
+op_pd_rough = .005     #How deep of a pass is the operator taking through roughing
 wh_pd_rough = .005        #How deep of a pass can the wheel taking while roughing
 
 op_pd_finish = .002    #How deep of a pass is the operator taking while finishing
 wh_pd_finish = .002       #How deep of a pass can the wheel take while roughing
 
-fact_scale = input("Is scale a facotr? [yes or no]")
-if fact_scale == "yes":
-    print("Scale was considered")
+fact_scale = input("Is scale a factor? [yes or no]")
+fact_scale2 = input("Should scale be considered a factor [yes or no]")
+if fact_scale == "yes" and fact_scale2 == "yes":
+    print("Scale was considered for both operator and wheel")
     thick_scale = .0039       #Typical to max depth of scale
-else:
-    print("Scale was not considered")
-    thick_scale = 0           #Scale still needs to be defined
+if fact_scale == "yes" and fact_scale2 == "no":
+    print("Scale was considered for the opreator and not the wheel")
+    thick_scale = .0039  # Typical to max depth of scale
+    wh_pd_scale = wh_pd_rough
+if fact_scale == "no" and fact_scale2 == "no":
+    print("Scale was not considered for either operator or wheel")
+    thick_scale = 0
 
 #Calculated Inputs
 delta = height-finish                               #Total material to be removed
@@ -42,8 +48,8 @@ if dev1 >= .0001:                             #Logic statement that prints thick
     print("Caclulated height",thick_check)
 
 """MATRIX CREATION"""
-op = 0           #index for operator
-wh = 1           #index for wheel limit
+op = 0                                            #index for operator
+wh = 1                                            #index for wheel limit
 pd_scale = np.array([op_pd_scale,wh_pd_scale])    #Array of scale pass depth
 pd_rough = np.array([op_pd_rough,wh_pd_rough])    #Array of roughing pass depth
 pd_finish = np.array([op_pd_finish,wh_pd_finish]) #Array of finishing pass depth
@@ -118,5 +124,6 @@ print("-"*50)
 print(total_str,"[",total_per,"% Capacity","]")
 print(total_str_scale,"[",total_per_scale,"% Capacity","]")
 print(total_str_rough,"[",total_per_rough,"% Capacity","]")
+print(total_str_finish,"[",total_per_finish,"% Capacity","]")
 
 
