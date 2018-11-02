@@ -13,8 +13,8 @@ finish = .125            #Finished height of the material
 #User Inputs
 thick_finish = .003    #With how many thou left with operator start finishing pass
 
-op_pd_scale = .003     #How deep of a pass is the operator taking through scale
-wh_pd_scale = .003        #How deep of a pass can the wheel take through scale
+op_pd_scale = .0005     #How deep of a pass is the operator taking through scale
+wh_pd_scale = .001        #How deep of a pass can the wheel take through scale
 
 
 op_pd_rough = .005     #How deep of a pass is the operator taking through roughing
@@ -72,7 +72,12 @@ if total > 1:
     total_per = int(total*100)
     total_str = "Wheel us overutilized across operation"
 
-total_scale = pass_scale.item(wh)/pass_scale.item(op)
+if fact_scale == "no" and fact_scale2 == "no":
+    total_scale = 0
+    print("Total passes for scale set to zero")
+else:
+    total_scale = pass_scale.item(wh)/pass_scale.item(op)
+
 if total_scale < 1:
     total_per_scale = int(total_scale*100)
     total_str_scale = "Wheel underutilized in scale region"
