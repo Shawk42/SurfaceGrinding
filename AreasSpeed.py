@@ -5,7 +5,7 @@ assumes that the pieces loaded next to each other.
 '''
 
 """INPUTS"""
-V_raw = 0.5               #Velocity in [ft/s]
+V_raw = .5              #Velocity in [ft/s]
 Wheel_width = 5         #Width of the wheel [in]
 Wheel_travel = 2        #Amount of wheel overtravel per side
 Stick_width = 2         #Width of an individual workpiece
@@ -24,7 +24,7 @@ gamma = Wheel_travel*V            #ft^2/s handled by wheel
 
 time = Area/gamma
 time_pass = 2*time
-passes = 37
+#passes = 37
 time_tot_s = passes*time_pass
 time_tot = time_tot_s/3600
 
